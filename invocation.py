@@ -1,39 +1,41 @@
 from transformers import pipeline, GPT2Tokenizer, GPT2Model
-from transformers import AutoTokenizer
+from transformers import AutoModelForQuestionAnswering, AutoTokenizer, pipeline
 import torch
 import transformers
 
-model = "meta-llama/Llama-2-7b-chat-hf"
+model_name = "meta-llama/Llama-2-7b-chat-hf"
+# model_name = "deepset/roberta-base-squad2"
 
 # tokenizer = AutoTokenizer.from_pretrained(model)
 
-# Function to invoke the language model
 def invoke_language_model(question):
-    # Using a text-generation pipeline
-    generator = pipeline('text-generation', model='llama2')
+    # generator = pipeline('text-generation', model='llama2')
+    generator = pipeline('question-answering', model = model_name, tokenizer=model_name)
     raw_text = generator(question, max_length=200)[0]['generated_text']
     return raw_text
 
-# Function to process raw text
+# model = AutoModelForQuestionAnswering.from_pretrained(model_name)
+# tokenizer = AutoTokenizer.from_pretrained(model_name)
+
 def process_raw_text(raw_text):
-    # Your processing steps here
     processed_text = raw_text.strip()
     return processed_text
 
+def get_raw_text(question):
+    return invoke_language_model(question)
+def get_processed_text(raw_text):
+    return process_raw_text(raw_text)
+
 # Example usage
 if __name__ == "__main__":
-    # Sample question
     # question = "Is Amsterdam the capital of the Netherlands?"
     # question = "Is Managua the capital of Nicaragua?"
-    question = input("Enter the question: ")
+    user_question = input("Enter the question please: ")
 
-    # Call the language model
-    raw_text = invoke_language_model(question)
+    raw_text_result = get_raw_text(user_question)
 
-    # Process the raw text
-    processed_text = process_raw_text(raw_text)
+    processed_text_result = get_processed_text(raw_text_result)
 
-    # Display the results
-    print("Input Question (Text A):", question)
-    print("Raw Text Output (Text B):", raw_text)
-    print("Processed Text:", processed_text)
+    print("Input Question (Text A):", user_question)
+    print("Raw Text Output (Text B):", raw_text_result)
+    print("Processed Text:", processed_text_result)
