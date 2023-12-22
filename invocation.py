@@ -5,10 +5,10 @@ import transformers
 
 # model_name = "meta-llama/Llama-2-7b-chat-hf"
 # model_name = "deepset/roberta-base-squad2"
-model_name = "GPT2ForQuestionAnswering"
+# model_name = "GPT2ForQuestionAnswering"
 # model_name = "rsvp-ai/bertserini-bert-base-squad"
 # model_name = "llama2"
-# model_name = "gpt2"
+model_name = "gpt2"
 # model_name = transformers.GPT2ForQuestionAnswering(
 #  'mosaicml/mpt-7b',
 #  trust_remote_code=True
@@ -17,8 +17,8 @@ model_name = "GPT2ForQuestionAnswering"
 # tokenizer = AutoTokenizer.from_pretrained(model)
 
 def invoke_language_model(question):
-    # generator = pipeline('text-generation', model= model_name)
-    generator = pipeline('question-answering', model = model_name, tokenizer=model_name)
+    generator = pipeline('text-generation', model= model_name)
+    # generator = pipeline('question-answering', model = model_name, tokenizer=model_name)
     raw_text = generator(question, max_length=200)[0]['generated_text']
     # raw_text = generator([question, 'context'])
     return raw_text
