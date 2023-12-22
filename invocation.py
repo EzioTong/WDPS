@@ -19,7 +19,7 @@ model_name = "gpt2"
 def invoke_language_model(question):
     generator = pipeline('text-generation', model= model_name)
     # generator = pipeline('question-answering', model = model_name, tokenizer=model_name)
-    raw_text = generator(question, max_length=200)[0]['generated_text']
+    raw_text = generator(question, max_length=150)[0]['generated_text']
     # raw_text = generator([question, 'context'])
     return raw_text
 
